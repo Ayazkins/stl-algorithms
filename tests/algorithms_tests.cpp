@@ -100,6 +100,17 @@ TEST(AlgorithmsTest, xrange) {
   }
 }
 
+TEST(AlgorithmsTest, xrange_with_minus) {
+  auto x = xrange(6, 0, -1);
+  std::vector<double> v{x.begin(), x.end()};
+  int c = 6;
+  for (auto i : v) {
+	EXPECT_EQ(i, c);
+	c--;
+  }
+
+}
+
 TEST(AlgorithmsTest, zip) {
   std::vector<int> v{-1, -2, 3, 4, -5, -6};
   std::list<char> v2{'a', 'b', 'c', 'd'};

@@ -128,7 +128,7 @@ class xrange_class {
 	iterator(T current, T step) : current_(current), step_(step) {}
 
 	bool operator==(const iterator& other) const {
-	  return current_ >= other.current_;
+	  return abs(current_ - other.current_) < abs(step_);
 	}
 
 	bool operator!=(const iterator& other) const {

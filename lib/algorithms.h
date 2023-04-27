@@ -148,7 +148,7 @@ class xrange_class {
 	  return *this;
 	}
 
-	iterator& operator++(int) {
+	iterator operator++(int) {
 	  iterator temp = *this;
 	  ++(*this);
 	  return temp;
@@ -204,8 +204,7 @@ class Zip {
 	using difference_type = typename std::iterator_traits<Iterator1>::difference_type;
 	using pointer = value_type*;
 	using reference = value_type&;
-	using iterator_category = typename std::common_type<typename std::iterator_traits<Iterator1>::iterator_category,
-														typename std::iterator_traits<Iterator2>::iterator_category>::type;
+	using iterator_category = std::forward_iterator_tag;
 	ZipIterator(Iterator1 begin1, Iterator2 begin2)
 		: it1_(begin1), it2_(begin2) {}
 
@@ -219,7 +218,7 @@ class Zip {
 	  return *this;
 	}
 
-	ZipIterator& operator++(int) {
+	ZipIterator operator++(int) {
 	  ZipIterator temp = *this;
 	  ++(*this);
 	  return temp;

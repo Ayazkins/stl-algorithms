@@ -86,10 +86,13 @@ constexpr InputIt my_find_not(InputIt first, InputIt last, const T& p) {
 
 template<class InputIt, typename T>
 constexpr InputIt my_find_backward(InputIt first, InputIt last, const T& p) {
-  --last;
+  auto it = --last;
   auto pred = [&p](const auto& x) { return x == p; };
-  while (last != first - 1 && !pred(*last)) {
+  while (it != first - 1 && !pred(*it)) {
 	--last;
+  }
+  if (it < first) {
+	return it;
   }
   return last;
 }

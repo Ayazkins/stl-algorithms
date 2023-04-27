@@ -1,4 +1,5 @@
 #include <iterator>
+#include <vector>
 template<class InputIt, class UnaryPredicate>
 constexpr InputIt my_find_if_not(InputIt first, InputIt last, UnaryPredicate p) {
   while (first != last && p(*first)) {
@@ -86,8 +87,20 @@ constexpr InputIt my_find_not(InputIt first, InputIt last, const T& p) {
 
 template<class InputIt, typename T>
 constexpr InputIt my_find_backward(InputIt first, InputIt last, const T& p) {
-  auto it = --last;
   auto pred = [&p](const auto& x) { return x == p; };
+  if (typeid(typename std::iterator_traits<InputIt>::iterator_category) == typeid(std::forward_iterator_tag) ||
+	  typeid(typename std::iterator_traits<InputIt>::iterator_category) == typeid(std::input_iterator_tag)) {
+	auto last_one = last;
+	auto it = first;
+	while (it != last) {
+	  ++it;
+	  if (pred(*it)) {
+		last_one = it;
+	  }
+	}
+	return last_one;
+  }
+  auto it = --last;
   while (it != first - 1 && !pred(*it)) {
 	--last;
   }
@@ -122,7 +135,7 @@ class xrange_class {
 	T step_;
 
    public:
-	using iterator_category = std::input_iterator_tag;
+	using iterator_category = std::forward_iterator_tag;
 	using value_type = T;
 	using difference_type = T;
 	using pointer = const T*;
